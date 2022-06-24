@@ -1,0 +1,51 @@
+getMyIp.html
+
+<template>
+    <lightning-card>
+        <h3 slot="title">
+            <lightning-icon icon-name="utility:connected_apps" size="small"></lightning-icon>
+           My IP
+        </h3>
+        <div slot="footer">
+
+        </div>
+        <div class="slds-p-around_medium lgc-bg">
+            <lightning-button label="Get My IP" onclick={getIP}></lightning-button>
+        </div>
+
+        <div class="slds-p-around_medium lgc-bg">
+            <lightning-textarea readonly value={myIp} rows="7" style="height:150px;"></lightning-textarea>
+        </div>   
+    </lightning-card>
+</template>
+getMyIp.js
+
+import { LightningElement, track } from 'lwc';
+
+export default class GetMyIp extends LightningElement {
+    @track myIp;
+
+    getIP() {
+       const calloutURI = 'https://api.ipify.org?format=json';
+        fetch(calloutURI, {
+            method: "GET"
+        }).then((response) => response.json())
+            .then(repos => {
+                console.log(repos)
+                this.myIp = repos.ip;
+                console.log(this.myIp);
+            });
+    }
+}
+getMyIp.js-meta.xml
+
+<?xml version="1.0" encoding="UTF-8"?>
+<LightningComponentBundle xmlns="https://soap.sforce.com/2006/04/metadata">
+    <apiVersion>52.0</apiVersion>
+    <isExposed>true</isExposed>
+    <targets>
+        <target>lightning__AppPage</target>
+        <target>lightning__RecordPage</target>
+        <target>lightning__HomePage</target>
+    </targets>
+</LightningComponentBundle>
